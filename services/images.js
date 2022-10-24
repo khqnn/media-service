@@ -56,18 +56,24 @@ imagesService.getResizedImage = async (req, res) => {
     const storageFactory = new StorageFactory()
     const storage = storageFactory.initiate('supabase')
     const results = await storage.download(imageName)
+    console.log(results);
     let img = null
 
     if (!results.success) {
 
         const fullSizedImage = await storage.download(image)
-        const base64image = fullSizedImage.data
-        const storageFactory = new StorageFactory(imageName)
-        await storageFactory.resize(base64image, dim)
-        const lstorage = storageFactory.initiate('supabase')
-        await lstorage.upload()
+        if (!fullSizedImage.success) {
+            img = Buffer.from('abc', 'base64')
+        }
+        else {
+            const base64image = fullSizedImage.data
+            const storageFactory = new StorageFactory(imageName)
+            await storageFactory.resize(base64image, dim)
+            const lstorage = storageFactory.initiate('supabase')
+            await lstorage.upload()
 
-        img = storageFactory.image
+            img = storageFactory.image
+        }
     }
     else {
 
