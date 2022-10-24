@@ -40,8 +40,14 @@ class StorageFactory {
         const width = dimensions.width
         const height = dimensions.height
         let options = { width: width, height: height }
-        if (width > max_dim) options = { width: Number(max_dim) }
-        else if (height > max_dim) options = { height: Number(max_dim) }
+
+        if(width>height){
+            if (height > max_dim) options = { height: Number(max_dim) }
+        }
+        else {
+            if (width > max_dim) options = { width: Number(max_dim) }
+        }
+
 
         return options
     }
