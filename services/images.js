@@ -41,7 +41,7 @@ imagesService.getImage = async (req, res) => {
     const img = Buffer.from(base64image, 'base64');
 
     res.writeHead(200, {
-        'Content-Type': 'image/png',
+        'Content-Type': 'image/webp',
         'Content-Length': img.length
     });
     res.end(img);
@@ -56,6 +56,7 @@ imagesService.getResizedImage = async (req, res) => {
     const storageFactory = new StorageFactory()
     const storage = storageFactory.initiate('supabase')
     const results = await storage.download(imageName)
+    let img = null
 
     if (!results.success) {
 
@@ -66,22 +67,18 @@ imagesService.getResizedImage = async (req, res) => {
         const lstorage = storageFactory.initiate('supabase')
         await lstorage.upload()
 
-        const img = storageFactory.image
-
-        res.writeHead(200, {
-            'Content-Type': 'image/png',
-            'Content-Length': img.length
-        });
-        res.end(img);
+        img = storageFactory.image
 
         return
     }
+    else {
 
-    const base64image = results.data
-    const img = Buffer.from(base64image, 'base64');
+        const base64image = results.data
+        img = Buffer.from(base64image, 'base64');
+    }
 
     res.writeHead(200, {
-        'Content-Type': 'image/png',
+        'Content-Type': 'image/webp',
         'Content-Length': img.length
     });
     res.end(img);
