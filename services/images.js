@@ -56,7 +56,6 @@ imagesService.getResizedImage = async (req, res) => {
     const storageFactory = new StorageFactory()
     const storage = storageFactory.initiate('supabase')
     const results = await storage.download(imageName)
-    console.log(results);
     let img = null
 
     if (!results.success) {
