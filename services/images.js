@@ -68,8 +68,6 @@ imagesService.getResizedImage = async (req, res) => {
         await lstorage.upload()
 
         img = storageFactory.image
-
-        return
     }
     else {
 
